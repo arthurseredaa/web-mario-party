@@ -7,3 +7,11 @@ settings:
 importers:
 
   .: {}
+
+  apps/server:
+    dependencies:
+      '@wmp/shared':
+        specifier: workspace:^
+        version: link:../../packages/shared
+
+  packages/shared: {}
