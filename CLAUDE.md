@@ -7,7 +7,7 @@ A Mario Party–style board game in the browser: the laptop is the shared screen
 the controllers. See `ROADMAP.md` for the stages and the current progress.
 
 Stack (planned): pnpm workspaces monorepo — `server` (Node + TypeScript, Express + Socket.IO), `screen` and
-`controller` (React + Vite), `shared` (message types + zod schemas). Postgres + Drizzle, Vitest,
+`gamepad` (React + Vite), `shared` (message types + zod schemas). Postgres + Drizzle, Vitest,
 later Redis and Docker.
 
 ## Rule 1: NEVER write code for me

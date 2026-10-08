@@ -19,14 +19,14 @@
 ```
 apps/server       Node + TS + Express + Socket.IO
 apps/screen       React + Vite — екран на ноуті
-apps/controller   React + Vite — геймпад на телефоні
+apps/gamepad      React + Vite — геймпад на телефоні
 packages/shared   спільні типи повідомлень + zod-схеми
 ```
 
 Готово, коли…
 
 - [ ] `pnpm install` в корені ставить залежності для всіх пакетів
-- [ ] `server`, `screen`, `controller` імпортують щось із `shared`, і типи працюють в IDE
+- [ ] `server`, `screen`, `gamepad` імпортують щось із `shared`, і типи працюють в IDE
 - [ ] одна команда в корені запускає все разом у dev-режимі
 - [ ] `tsc --noEmit` проходить у всіх пакетах
 
@@ -42,7 +42,7 @@ packages/shared   спільні типи повідомлень + zod-схем�
 **Вчу:** Socket.IO поверх Express: події й acknowledgements, rooms, життєвий цикл з'єднання, broadcast.
 
 - Екран створює кімнату → сервер повертає короткий код (типу `ABCD`)
-- Екран показує код + QR-код з посиланням на `controller`
+- Екран показує код + QR-код з посиланням на `gamepad`
 - Телефон вводить ім'я, заходить у кімнату
 - На екрані наживо з'являється список гравців
 
