@@ -1,6 +1,6 @@
 # Що читати і що тримати під рукою
 
-Стек: pnpm workspaces · NestJS + Socket.IO (`apps/server`) · React + Vite (`apps/screen`,
+Стек: pnpm workspaces · Express + Socket.IO (`apps/server`) · React + Vite (`apps/screen`,
 `apps/controller`) · `packages/shared` (типи подій + zod) · Postgres + Drizzle · Vitest · пізніше
 Redis і Docker.
 
@@ -13,9 +13,8 @@ Redis і Docker.
 
 | Що | Посилання |
 |---|---|
-| Nest: request lifecycle (що за чим виконується) | <https://docs.nestjs.com/faq/request-lifecycle> |
-| Nest: шпаргалка декораторів, «де яка логіка» | `~/Desktop/Nest-JS-Guide.pdf`, стор. 37–48 |
-| Nest: WebSocket-гейтвеї | <https://docs.nestjs.com/websockets/gateways> |
+| Express: middleware (що за чим виконується) | <https://expressjs.com/en/guide/using-middleware.html> |
+| Express: routing | <https://expressjs.com/en/guide/routing.html> |
 | Socket.IO: emit cheatsheet (хто кому відправляє) | <https://socket.io/docs/v4/emit-cheatsheet/> |
 | Socket.IO: типізація подій у TS | <https://socket.io/docs/v4/typescript/> |
 | zod | <https://zod.dev/> |
@@ -31,13 +30,10 @@ Redis і Docker.
   [Filtering](https://pnpm.io/filtering) (`--filter`, `-r`)
 - TS → [Project References](https://www.typescriptlang.org/docs/handbook/project-references.html):
   як один пакет бачить типи іншого
-- Nest → [First steps](https://docs.nestjs.com/first-steps)
+- Express → [Hello world](https://expressjs.com/en/starter/hello-world.html)
 
 **Під рукою:** [Vite server options](https://vite.dev/config/server-options) (`server.host`, щоб
 телефон бачив dev-сервер).
-
-**Пастка:** Nest CLI має свій «monorepo mode» (`nest g app`). Це **не** pnpm workspaces, не плутай.
-Тут Nest — один звичайний застосунок в `apps/server`.
 
 ---
 
@@ -45,8 +41,9 @@ Redis і Docker.
 
 **Прочитати:**
 
-- Nest → [Gateways](https://docs.nestjs.com/websockets/gateways): `@WebSocketGateway`,
-  `@SubscribeMessage`, `handleConnection` / `handleDisconnect`
+- Socket.IO → [Tutorial](https://socket.io/docs/v4/tutorial/introduction) (кроки про Express і
+  базове підключення) і [Server initialization](https://socket.io/docs/v4/server-initialization/):
+  як Socket.IO сідає на HTTP-сервер Express
 - Socket.IO → [Rooms](https://socket.io/docs/v4/rooms/) і
   [Emitting events](https://socket.io/docs/v4/emitting-events/) (включно з acknowledgements)
 - Socket.IO → [How to use with React](https://socket.io/how-to/use-with-react): де створювати сокет,
@@ -67,17 +64,17 @@ Redis і Docker.
 
 - Socket.IO → [TypeScript](https://socket.io/docs/v4/typescript/): мапи подій
   `ClientToServerEvents` / `ServerToClientEvents` у `shared`
-- Nest → WebSocket [Pipes](https://docs.nestjs.com/websockets/pipes),
-  [Guards](https://docs.nestjs.com/websockets/guards),
-  [Exception filters](https://docs.nestjs.com/websockets/exception-filters): те саме, що в
-  `chapter_5`, але для сокетів (`WsException` замість `HttpException`)
 - Socket.IO → [Middlewares](https://socket.io/docs/v4/middlewares/): auth на рівні підключення,
   токен гравця
 - Socket.IO → [Connection state recovery](https://socket.io/docs/v4/connection-state-recovery) і
   [Delivery guarantees](https://socket.io/docs/v4/delivery-guarantees): що Socket.IO відновлює сам,
   а що ні
+- zod → [Basic usage](https://zod.dev/) (`safeParse`): валідація payload'у в кожному обробнику події
+- Express → [Error handling](https://expressjs.com/en/guide/error-handling.html): для HTTP-частини
 
-**Під рукою:** TS → [Narrowing / discriminated unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html).
+**Під рукою:** TS → [Narrowing / discriminated unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html);
+Socket.IO → [How it works](https://socket.io/docs/v4/how-it-works/) (heartbeat, `pingInterval` /
+`pingTimeout`).
 
 **Пам'ятай:** Socket.IO перепідключає **сокет**, а не **гравця**. «Той самий гравець після
 блокування телефону» — твоя логіка.
@@ -91,9 +88,8 @@ Redis і Docker.
 - [Vitest Guide](https://vitest.dev/guide/) → Getting Started
 - Vitest → [Mocking](https://vitest.dev/guide/mocking): детермінований кубик
 
-**Під рукою:** Nest → [Testing](https://docs.nestjs.com/fundamentals/testing). Знадобиться лише для
-тестів сервісів. Сама ігрова логіка — чисті функції без Nest, їм `Test.createTestingModule` не
-потрібен.
+**Під рукою:** ігрова логіка — чисті функції без Express і Socket.IO, тож для її тестів нічого,
+крім Vitest, не потрібно.
 
 ---
 
@@ -104,11 +100,9 @@ Redis і Docker.
 - Drizzle → [Overview](https://orm.drizzle.team/docs/overview),
   [Migrations](https://orm.drizzle.team/docs/migrations),
   [Transactions](https://orm.drizzle.team/docs/transactions)
-- Nest → [Custom providers](https://docs.nestjs.com/fundamentals/custom-providers) і
-  [Lifecycle events](https://docs.nestjs.com/fundamentals/lifecycle-events): як правильно віддати
-  Drizzle-клієнт через DI і закрити пул на shutdown (порівняй з `DatabaseModule` у `chapter_5`)
 
-**Під рукою:** Nest → [Configuration](https://docs.nestjs.com/techniques/configuration) (`.env`).
+**Під рукою:** Node → [`--env-file`](https://nodejs.org/api/cli.html#--env-fileconfig) або `dotenv`
+для `.env`; закрити пул з'єднань на shutdown (`SIGTERM` → `pool.end()`).
 
 ---
 
@@ -138,7 +132,6 @@ Redis і Docker.
 - Socket.IO → [Using multiple nodes](https://socket.io/docs/v4/using-multiple-nodes/): **sticky
   sessions**, без них нічого не запрацює
 - Socket.IO → [Redis adapter](https://socket.io/docs/v4/redis-adapter/)
-- Nest → [Adapters](https://docs.nestjs.com/websockets/adapter): як підключити Redis-адаптер у Nest
 
 **Під рукою:** [Redis docs](https://redis.io/docs/latest/).
 
@@ -148,5 +141,5 @@ Redis і Docker.
 
 **Прочитати:** Docker → [Multi-stage builds](https://docs.docker.com/build/building/multi-stage/).
 
-**Під рукою:** [GitHub Actions](https://docs.github.com/en/actions),
-Nest → [Logger](https://docs.nestjs.com/techniques/logger).
+**Під рукою:** [GitHub Actions](https://docs.github.com/en/actions);
+для логів на сервері — [pino](https://getpino.io/) (коли `console.log` стане замало).

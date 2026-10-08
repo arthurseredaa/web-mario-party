@@ -6,7 +6,7 @@ the code is his job.
 A Mario Party–style board game in the browser: the laptop is the shared screen (the board), phones are
 the controllers. See `ROADMAP.md` for the stages and the current progress.
 
-Stack (planned): pnpm workspaces monorepo — `server` (Node + TypeScript, raw `ws`), `screen` and
+Stack (planned): pnpm workspaces monorepo — `server` (Node + TypeScript, Express + Socket.IO), `screen` and
 `controller` (React + Vite), `shared` (message types + zod schemas). Postgres + Drizzle, Vitest,
 later Redis and Docker.
 
