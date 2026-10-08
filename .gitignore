@@ -1,0 +1,42 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+build/
+*.tsbuildinfo
+
+# env / secrets (keep .env.example committed)
+.env
+.env.*
+!.env.example
+
+# tests / coverage
+coverage/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# local data (docker volumes, db dumps)
+pgdata/
+postgres-data/
+redis-data/
+*.sqlite
+
+# vite / tooling caches
+.vite/
+.cache/
+.turbo/
+
+# editors / IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Claude Code local settings
+.claude/settings.local.json
